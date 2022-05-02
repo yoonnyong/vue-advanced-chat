@@ -1,7 +1,7 @@
 <template>
 	<div class="vac-card-window" :style="[{ height }, cssVars]">
 		<div class="vac-chat-container">
-			<rooms-list
+			<!-- <rooms-list
 				v-if="!singleRoom"
 				:current-user-id="currentUserId"
 				:rooms="orderedRooms"
@@ -26,7 +26,7 @@
 				<template v-for="(i, name) in $scopedSlots" #[name]="data">
 					<slot :name="name" v-bind="data" />
 				</template>
-			</rooms-list>
+			</rooms-list> -->
 
 			<room
 				:current-user-id="currentUserId"
@@ -96,7 +96,7 @@
 </template>
 
 <script>
-import RoomsList from './RoomsList/RoomsList'
+// import RoomsList from './RoomsList/RoomsList'
 import Room from './Room/Room'
 import MediaPreview from './MediaPreview/MediaPreview'
 
@@ -110,7 +110,7 @@ const {
 export default {
 	name: 'ChatContainer',
 	components: {
-		RoomsList,
+		// RoomsList,
 		Room,
 		MediaPreview
 	},
@@ -121,18 +121,18 @@ export default {
 		styles: { type: Object, default: () => ({}) },
 		responsiveBreakpoint: { type: Number, default: 900 },
 		singleRoom: { type: Boolean, default: false },
-		roomsListOpened: { type: Boolean, default: true },
+		// roomsListOpened: { type: Boolean, default: true },
 		textMessages: { type: Object, default: null },
 		currentUserId: { type: [String, Number], default: '' },
 		rooms: { type: Array, default: () => [] },
 		roomsOrder: { type: String, default: 'desc' },
 		loadingRooms: { type: Boolean, default: false },
-		roomsLoaded: { type: Boolean, default: false },
+		// roomsLoaded: { type: Boolean, default: false },
 		roomId: { type: [String, Number], default: null },
 		loadFirstRoom: { type: Boolean, default: true },
 		messages: { type: Array, default: () => [] },
 		messagesLoaded: { type: Boolean, default: false },
-		roomActions: { type: Array, default: () => [] },
+		// roomActions: { type: Array, default: () => [] },
 		menuActions: { type: Array, default: () => [] },
 		messageActions: {
 			type: Array,
@@ -159,8 +159,8 @@ export default {
 				}
 			}
 		},
-		showSearch: { type: Boolean, default: true },
-		showAddRoom: { type: Boolean, default: true },
+		// showSearch: { type: Boolean, default: true },
+		// showAddRoom: { type: Boolean, default: true },
 		showSendIcon: { type: Boolean, default: true },
 		showFiles: { type: Boolean, default: true },
 		showAudio: { type: Boolean, default: true },
@@ -202,7 +202,7 @@ export default {
 	},
 
 	emits: [
-		'toggle-rooms-list',
+		// 'toggle-rooms-list',
 		'room-info',
 		'fetch-messages',
 		'send-message',
@@ -226,7 +226,7 @@ export default {
 		return {
 			room: {},
 			loadingMoreRooms: false,
-			showRoomsList: true,
+			showRoomsList: false,
 			isMobile: false,
 			showMediaPreview: false,
 			previewFile: {}
@@ -272,12 +272,12 @@ export default {
 			immediate: true,
 			deep: true,
 			handler(newVal, oldVal) {
-				if (
-					!newVal[0] ||
-					!newVal.find(room => room.roomId === this.room.roomId)
-				) {
-					this.showRoomsList = true
-				}
+				// if (
+				// 	!newVal[0] ||
+				// 	!newVal.find(room => room.roomId === this.room.roomId)
+				// ) {
+				// 	this.showRoomsList = false
+				// }
 
 				if (
 					!this.loadingMoreRooms &&
@@ -290,8 +290,8 @@ export default {
 						this.fetchRoom({ room })
 					} else if (!this.isMobile || this.singleRoom) {
 						this.fetchRoom({ room: this.orderedRooms[0] })
-					} else {
-						this.showRoomsList = true
+					// } else {
+					// 	this.showRoomsList = true
 					}
 				}
 			}
@@ -321,11 +321,11 @@ export default {
 			val.users.forEach(user => {
 				partcipantsValidation(user)
 			})
-		},
-
-		roomsListOpened(val) {
-			this.showRoomsList = val
 		}
+
+		// roomsListOpened(val) {
+		// 	this.showRoomsList = val
+		// }
 	},
 
 	created() {
@@ -339,25 +339,25 @@ export default {
 		updateResponsive() {
 			this.isMobile = window.innerWidth < this.responsiveBreakpoint
 		},
-		toggleRoomsList() {
-			this.showRoomsList = !this.showRoomsList
-			if (this.isMobile) this.room = {}
-			this.$emit('toggle-rooms-list', { opened: this.showRoomsList })
-		},
+		// toggleRoomsList() {
+		// 	this.showRoomsList = !this.showRoomsList
+		// 	if (this.isMobile) this.room = {}
+		// 	this.$emit('toggle-rooms-list', { opened: this.showRoomsList })
+		// },
 		fetchRoom({ room }) {
 			this.room = room
 			this.fetchMessages({ reset: true })
 			if (this.isMobile) this.showRoomsList = false
 		},
-		fetchMoreRooms() {
-			this.$emit('fetch-more-rooms')
-		},
+		// fetchMoreRooms() {
+		// 	this.$emit('fetch-more-rooms')
+		// },
 		roomInfo() {
 			this.$emit('room-info', this.room)
 		},
-		addRoom() {
-			this.$emit('add-room')
-		},
+		// addRoom() {
+		// 	this.$emit('add-room')
+		// },
 		fetchMessages(options) {
 			this.$emit('fetch-messages', { room: this.room, options })
 		},
@@ -393,12 +393,12 @@ export default {
 				roomId: this.room.roomId
 			})
 		},
-		roomActionHandler({ action, roomId }) {
-			this.$emit('room-action-handler', {
-				action,
-				roomId
-			})
-		},
+		// roomActionHandler({ action, roomId }) {
+		// 	this.$emit('room-action-handler', {
+		// 		action,
+		// 		roomId
+		// 	})
+		// },
 		messageActionHandler(ev) {
 			this.$emit('message-action-handler', {
 				...ev,

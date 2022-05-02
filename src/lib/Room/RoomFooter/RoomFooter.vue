@@ -57,7 +57,7 @@
 			class="vac-box-footer"
 			:class="{ 'vac-box-footer-border': !files.length }"
 		>
-			<div v-if="showAudio && !files.length" class="vac-icon-textarea-left">
+			<!-- <div v-if="showAudio && !files.length" class="vac-icon-textarea-left">
 				<template v-if="isRecording">
 					<div class="vac-svg-button vac-icon-audio-stop" @click="stopRecorder">
 						<slot name="audio-stop-icon">
@@ -86,7 +86,7 @@
 						<svg-icon name="microphone" class="vac-icon-microphone" />
 					</slot>
 				</div>
-			</div>
+			</div> -->
 
 			<textarea
 				id="roomTextarea"
@@ -97,7 +97,7 @@
 					'vac-textarea-outline': editedMessage._id
 				}"
 				:style="{
-					'min-height': `20px`,
+					'min-height': `90px`,
 					'padding-left': `12px`
 				}"
 				@input="onChangeInput"
@@ -230,7 +230,7 @@ export default {
 		textMessages: { type: Object, required: true },
 		showSendIcon: { type: Boolean, required: true },
 		showFiles: { type: Boolean, required: true },
-		showAudio: { type: Boolean, required: true },
+		// showAudio: { type: Boolean, required: true },
 		showEmojis: { type: Boolean, required: true },
 		showFooter: { type: Boolean, required: true },
 		acceptedFiles: { type: String, required: true },
@@ -263,7 +263,7 @@ export default {
 			selectUsersTagItem: null,
 			selectEmojiItem: null,
 			selectTemplatesTextItem: null,
-			format: 'mp3',
+			// format: 'mp3',
 			activeUpOrDownEmojis: null,
 			activeUpOrDownUsersTag: null,
 			activeUpOrDownTemplatesText: null,
@@ -286,9 +286,9 @@ export default {
 		isFileLoading() {
 			return this.files.some(e => e.loading)
 		},
-		recordedTime() {
-			return new Date(this.recorder.duration * 1000).toISOString().substr(14, 5)
-		},
+		// recordedTime() {
+		// 	return new Date(this.recorder.duration * 1000).toISOString().substr(14, 5)
+		// },
 		shadowFooter() {
 			return (
 				!!this.filteredEmojis.length ||
@@ -522,34 +522,34 @@ export default {
 			this.files.splice(index, 1)
 			this.focusTextarea()
 		},
-		toggleRecorder(recording) {
-			this.isRecording = recording
+		// toggleRecorder(recording) {
+		// 	this.isRecording = recording
 
-			if (!this.recorder.isRecording) {
-				setTimeout(() => this.recorder.start(), 200)
-			} else {
-				try {
-					this.recorder.stop()
+		// 	if (!this.recorder.isRecording) {
+		// 		setTimeout(() => this.recorder.start(), 200)
+		// 	} else {
+		// 		try {
+		// 			this.recorder.stop()
 
-					const record = this.recorder.records[0]
+		// 			const record = this.recorder.records[0]
 
-					this.files.push({
-						blob: record.blob,
-						name: `audio.${this.format}`,
-						size: record.blob.size,
-						duration: record.duration,
-						type: record.blob.type,
-						audio: true,
-						localUrl: URL.createObjectURL(record.blob)
-					})
+		// 			this.files.push({
+		// 				blob: record.blob,
+		// 				name: `audio.${this.format}`,
+		// 				size: record.blob.size,
+		// 				duration: record.duration,
+		// 				type: record.blob.type,
+		// 				audio: true,
+		// 				localUrl: URL.createObjectURL(record.blob)
+		// 			})
 
-					this.recorder = this.initRecorder()
-					this.sendMessage()
-				} catch {
-					setTimeout(() => this.stopRecorder(), 100)
-				}
-			}
-		},
+		// 			this.recorder = this.initRecorder()
+		// 			this.sendMessage()
+		// 		} catch {
+		// 			setTimeout(() => this.stopRecorder(), 100)
+		// 		}
+		// 	}
+		// },
 		stopRecorder() {
 			if (this.recorder.isRecording) {
 				try {

@@ -9,7 +9,7 @@
 							:id="action.name"
 							:key="action.name"
 						>
-							<div
+							<!-- <div
 								class="vac-selection-button"
 								@click="messageSelectionActionHandler(action)"
 							>
@@ -17,7 +17,7 @@
 								<span class="vac-selection-button-count">
 									{{ selectedMessagesTotal }}
 								</span>
-							</div>
+							</div> -->
 						</div>
 						<div
 							class="vac-selection-cancel vac-item-clickable"
@@ -30,7 +30,7 @@
 				<template
 					v-if="!messageSelectionEnabled && messageSelectionAnimationEnded"
 				>
-					<div
+					<!-- <div
 						v-if="!singleRoom"
 						class="vac-svg-button vac-toggle-button"
 						:class="{ 'vac-rotate-icon-init': !isMobile, 'vac-rotate-icon': !showRoomsList && !isMobile }"
@@ -39,7 +39,7 @@
 						<slot name="toggle-icon">
 							<svg-icon name="toggle" />
 						</slot>
-					</div>
+					</div> -->
 					<div
 						class="vac-info-wrapper"
 						:class="{ 'vac-item-clickable': roomInfoEnabled }"
@@ -124,15 +124,15 @@ export default {
 	props: {
 		currentUserId: { type: [String, Number], required: true },
 		textMessages: { type: Object, required: true },
-		singleRoom: { type: Boolean, required: true },
-		showRoomsList: { type: Boolean, required: true },
-		isMobile: { type: Boolean, required: true },
+		// singleRoom: { type: Boolean, required: true },
+		// showRoomsList: { type: Boolean, required: true },
+		// isMobile: { type: Boolean, required: true },
 		roomInfoEnabled: { type: Boolean, required: true },
 		menuActions: { type: Array, required: true },
 		room: { type: Object, required: true },
 		messageSelectionEnabled: { type: Boolean, required: true },
-		messageSelectionActions: { type: Array, required: true },
-		selectedMessagesTotal: { type: Number, required: true }
+		messageSelectionActions: { type: Array, required: true }
+		// selectedMessagesTotal: { type: Number, required: true }
 	},
 
 	emits: [
@@ -192,10 +192,10 @@ export default {
 		},
 		closeMenu() {
 			this.menuOpened = false
-		},
-		messageSelectionActionHandler(action) {
-			this.$emit('message-selection-action-handler', action)
 		}
+		// messageSelectionActionHandler(action) {
+		// 	this.$emit('message-selection-action-handler', action)
+		// }
 	}
 }
 </script>
