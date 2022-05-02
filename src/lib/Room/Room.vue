@@ -40,11 +40,11 @@
 			class="vac-container-scroll"
 			@scroll="onContainerScroll"
 		>
-			<loader :show="loadingMessages">
+			<!-- <loader :show="loadingMessages">
 				<template v-for="(idx, name) in $scopedSlots" #[name]="data">
 					<slot :name="name" v-bind="data" />
 				</template>
-			</loader>
+			</loader> -->
 			<div class="vac-messages-container">
 				<div :class="{ 'vac-messages-hidden': loadingMessages }">
 					<transition name="vac-fade-message">
@@ -106,7 +106,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="!loadingMessages">
+		<!-- <div v-if="!loadingMessages">
 			<transition name="vac-bounce">
 				<div v-if="scrollIcon" class="vac-icon-scroll" @click="scrollToBottom">
 					<transition name="vac-bounce">
@@ -122,7 +122,7 @@
 					</slot>
 				</div>
 			</transition>
-		</div>
+		</div> -->
 
 		<room-footer
 			:room="room"
@@ -159,8 +159,8 @@
 </template>
 
 <script>
-import Loader from '../../components/Loader/Loader'
-import SvgIcon from '../../components/SvgIcon/SvgIcon'
+// import Loader from '../../components/Loader/Loader'
+// import SvgIcon from '../../components/SvgIcon/SvgIcon'
 
 import RoomHeader from './RoomHeader/RoomHeader'
 import RoomFooter from './RoomFooter/RoomFooter'
@@ -169,8 +169,8 @@ import RoomMessage from './RoomMessage/RoomMessage'
 export default {
 	name: 'Room',
 	components: {
-		Loader,
-		SvgIcon,
+		// Loader,
+		// SvgIcon,
 		RoomHeader,
 		RoomFooter,
 		RoomMessage
@@ -199,17 +199,17 @@ export default {
 		audioSampleRate: { type: Number, required: true },
 		showEmojis: { type: Boolean, required: true },
 		showReactionEmojis: { type: Boolean, required: true },
-		showNewMessagesDivider: { type: Boolean, required: true },
+		// showNewMessagesDivider: { type: Boolean, required: true },
 		showFooter: { type: Boolean, required: true },
 		acceptedFiles: { type: String, required: true },
 		textFormatting: { type: Object, required: true },
 		linkOptions: { type: Object, required: true },
-		loadingRooms: { type: Boolean, required: true },
+		// loadingRooms: { type: Boolean, required: true },
 		roomInfoEnabled: { type: Boolean, required: true },
 		textareaActionEnabled: { type: Boolean, required: true },
 		userTagsEnabled: { type: Boolean, required: true },
 		emojisSuggestionEnabled: { type: Boolean, required: true },
-		scrollDistance: { type: Number, required: true },
+		// scrollDistance: { type: Number, required: true },
 		templatesText: { type: Array, default: null },
 		usernameOptions: { type: Object, required: true }
 	},
@@ -238,13 +238,13 @@ export default {
 			initReplyMessage: null,
 			initEditMessage: null,
 			infiniteState: null,
-			loadingMessages: false,
-			observer: null,
-			showLoader: true,
-			loadingMoreMessages: false,
+			// loadingMessages: false,
+			// observer: null,
+			// showLoader: true,
+			// loadingMoreMessages: false,
 			scrollIcon: false,
 			scrollMessagesCount: 0,
-			newMessages: [],
+			// newMessages: [],
 			messageSelectionEnabled: false,
 			selectedMessages: []
 		}
@@ -257,9 +257,9 @@ export default {
 		showNoMessages() {
 			return (
 				this.roomId &&
-				!this.messages.length &&
-				!this.loadingMessages &&
-				!this.loadingRooms
+				!this.messages.length
+				// !this.loadingMessages &&
+				// !this.loadingRooms
 			)
 		},
 		showNoRoom() {
@@ -267,9 +267,9 @@ export default {
 				(!this.rooms.length && !this.loadingRooms) ||
 				(!this.roomId && !this.loadFirstRoom)
 
-			if (noRoomSelected) {
-				this.loadingMessages = false /* eslint-disable-line vue/no-side-effects-in-computed-properties */
-			}
+			// if (noRoomSelected) {
+			// 	this.loadingMessages = false /* eslint-disable-line vue/no-side-effects-in-computed-properties */
+			// }
 			return noRoomSelected
 		},
 		showMessagesStarted() {
@@ -278,95 +278,87 @@ export default {
 	},
 
 	watch: {
-		loadingMessages(val) {
-			if (val) {
-				this.infiniteState = null
-			} else {
-				if (this.infiniteState) this.infiniteState.loaded()
-				setTimeout(() => this.initIntersectionObserver())
-			}
-		},
 		roomId() {
 			this.onRoomChanged()
 		},
 		messages: {
 			deep: true,
 			handler(newVal, oldVal) {
-				newVal.forEach((message, i) => {
-					if (
-						this.showNewMessagesDivider &&
-						!message.seen &&
-						message.senderId !== this.currentUserId
-					) {
-						this.newMessages.push({
-							_id: message._id,
-							index: i
-						})
-					}
-				})
-				if (oldVal?.length === newVal?.length - 1) {
-					this.newMessages = []
-				}
-				if (this.infiniteState) {
-					this.infiniteState.loaded()
-				}
-				setTimeout(() => (this.loadingMoreMessages = false))
+				// newVal.forEach((message, i) => {
+				// 	if (
+				// 		this.showNewMessagesDivider &&
+				// 		!message.seen &&
+				// 		message.senderId !== this.currentUserId
+				// 	) {
+				// 		this.newMessages.push({
+				// 			_id: message._id,
+				// 			index: i
+				// 		})
+				// 	}
+				// })
+				// if (oldVal?.length === newVal?.length - 1) {
+				// 	this.newMessages = []
+				// }
+				// if (this.infiniteState) {
+				// 	this.infiniteState.loaded()
+				// }
+				// setTimeout(() => (this.loadingMoreMessages = false))
 			}
 		},
 		messagesLoaded(val) {
-			if (val) this.loadingMessages = false
+			// if (val) this.loadingMessages = false
 			if (this.infiniteState) this.infiniteState.complete()
 		}
 	},
 
-	mounted() {
-		this.newMessages = []
-	},
+	// mounted() {
+	// 	this.newMessages = []
+	// },
 
 	methods: {
-		initIntersectionObserver() {
-			if (this.observer) {
-				this.showLoader = true
-				this.observer.disconnect()
-			}
+		// initIntersectionObserver() {
+		// 	if (this.observer) {
+		// 		this.showLoader = true
+		// 		this.observer.disconnect()
+		// 	}
 
-			const loader = document.getElementById('infinite-loader-messages')
+		// 	const loader = document.getElementById('infinite-loader-messages')
 
-			if (loader) {
-				const options = {
-					root: document.getElementById('messages-list'),
-					rootMargin: `${this.scrollDistance}px`,
-					threshold: 0
-				}
+		// 	if (loader) {
+		// 		const options = {
+		// 			root: document.getElementById('messages-list'),
+		// 			rootMargin: `${this.scrollDistance}px`,
+		// 			threshold: 0
+		// 		}
 
-				this.observer = new IntersectionObserver(entries => {
-					if (entries[0].isIntersecting) {
-						this.loadMoreMessages()
-					}
-				}, options)
+		// 		this.observer = new IntersectionObserver(entries => {
+		// 			if (entries[0].isIntersecting) {
+		// 				this.loadMoreMessages()
+		// 			}
+		// 		}, options)
 
-				this.observer.observe(loader)
-			}
-		},
-		preventTopScroll() {
-			const container = this.$refs.scrollContainer
-			const prevScrollHeight = container.scrollHeight
+		// 		this.observer.observe(loader)
+		// 	}
+		// },
+		// preventTopScroll() {
+		// 	const container = this.$refs.scrollContainer
+		// 	const prevScrollHeight = container.scrollHeight
 
-			const observer = new ResizeObserver(_ => {
-				if (container.scrollHeight !== prevScrollHeight) {
-					if (this.$refs.scrollContainer) {
-						this.$refs.scrollContainer.scrollTo({
-							top: container.scrollHeight - prevScrollHeight
-						})
-						observer.disconnect()
-					}
-				}
-			})
+		// 	const observer = new ResizeObserver(_ => {
+		// 		if (container.scrollHeight !== prevScrollHeight) {
+		// 			if (this.$refs.scrollContainer) {
+		// 				this.$refs.scrollContainer.scrollTo({
+		// 					top: container.scrollHeight - prevScrollHeight
+		// 				})
+		// 				observer.disconnect()
+		// 			}
+		// 		}
+		// 	})
 
-			for (var i = 0; i < container.children.length; i++) {
-				observer.observe(container.children[i])
-			}
-		},
+		// 	for (var i = 0; i < container.children.length; i++) {
+		// 		observer.observe(container.children[i])
+		// 	}
+		// },
 		touchStart(touchEvent) {
 			if (this.singleRoom) return
 
@@ -395,14 +387,14 @@ export default {
 			}
 		},
 		onRoomChanged() {
-			this.loadingMessages = true
+			// this.loadingMessages = true
 			this.scrollIcon = false
 			this.scrollMessagesCount = 0
 			this.resetMessageSelection()
 
-			if (!this.messages.length && this.messagesLoaded) {
-				this.loadingMessages = false
-			}
+			// if (!this.messages.length && this.messagesLoaded) {
+			// 	this.loadingMessages = false
+			// }
 
 			const unwatch = this.$watch(
 				() => this.messages,
@@ -416,7 +408,7 @@ export default {
 
 					setTimeout(() => {
 						element.scrollTo({ top: element.scrollHeight })
-						this.loadingMessages = false
+						// this.loadingMessages = false
 					})
 				}
 			)
@@ -478,27 +470,27 @@ export default {
 			if (bottomScroll < 60) this.scrollMessagesCount = 0
 			this.scrollIcon = bottomScroll > 500 || this.scrollMessagesCount
 		},
-		loadMoreMessages() {
-			if (this.loadingMessages) return
+		// loadMoreMessages() {
+		// 	if (this.loadingMessages) return
 
-			setTimeout(
-				() => {
-					if (this.loadingMoreMessages) return
+		// 	setTimeout(
+		// 		() => {
+		// 			// if (this.loadingMoreMessages) return
 
-					if (this.messagesLoaded || !this.roomId) {
-						this.loadingMoreMessages = false
-						this.showLoader = false
-						return
-					}
+		// 			if (this.messagesLoaded || !this.roomId) {
+		// 				// this.loadingMoreMessages = false
+		// 				this.showLoader = false
+		// 				return
+		// 			}
 
-					this.preventTopScroll()
-					this.$emit('fetch-messages')
-					this.loadingMoreMessages = true
-				},
-				// prevent scroll bouncing speed
-				500
-			)
-		},
+		// 			this.preventTopScroll()
+		// 			this.$emit('fetch-messages')
+		// 			// this.loadingMoreMessages = true
+		// 		},
+		// 		// prevent scroll bouncing speed
+		// 		500
+		// 	)
+		// },
 		messageActionHandler({ action, message }) {
 			switch (action.name) {
 				case 'replyMessage':
