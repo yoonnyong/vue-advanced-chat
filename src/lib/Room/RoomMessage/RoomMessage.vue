@@ -216,7 +216,7 @@ import FormatMessage from '../../../components/FormatMessage/FormatMessage'
 
 import MessageReply from './MessageReply/MessageReply'
 import MessageFiles from './MessageFiles/MessageFiles'
-import MessageActions from './MessageActions/MessageActions'
+// import MessageActions from './MessageActions/MessageActions'
 import MessageReactions from './MessageReactions/MessageReactions'
 import AudioPlayer from './AudioPlayer/AudioPlayer'
 
@@ -231,7 +231,7 @@ export default {
 		AudioPlayer,
 		MessageReply,
 		MessageFiles,
-		MessageActions,
+		// MessageActions,
 		MessageReactions
 	},
 
